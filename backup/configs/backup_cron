@@ -1,0 +1,3 @@
+SHELL=/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin
+<BACKUP_SCHEDULE> $HOME/services/backup/processors/backup.sh | tee -a $HOME/services/backup/logs/backup.log  | tee $HOME/services//logs/backup_ephem.log > /proc/1/fd/1

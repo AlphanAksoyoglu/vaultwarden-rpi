@@ -1,0 +1,88 @@
+{
+  admin off
+  email {$YOUR_EMAIL}
+  log {
+    output file {$LOG_FILE} {
+      roll_size 10MB
+      roll_keep 10
+    }
+  }
+}
+
+## IF DUCKDNS
+{$DUCKDNS_DOMAIN}:443 {
+  log {
+    level INFO
+    output file {$LOG_FILE_DUCKDNS} {
+      roll_size 10MB
+      roll_keep 10
+    }
+  }
+  skip_log /icons/*
+
+  # Use the ACME DNS-01 challenge to get a cert for the configured domain.
+  tls {
+    dns duckdns {$DUCKDNS_TOKEN}
+    propagation_timeout -1
+  }
+
+  # This setting may have compatibility issues with some browsers
+  # (e.g., attachment downloading on Firefox). Try disabling this
+  # if you encounter issues.
+  encode gzip
+
+  # Proxy everything to Rocket
+  reverse_proxy vaultwarden:8001
+}
+## FI DUCKDNS
+
+## IF TAILSCALE
+{$TAILSCALE_DOMAIN}:443 {
+  log {
+    level INFO
+    output file {$LOG_FILE_TAILSCALE} {
+      roll_size 10MB
+      roll_keep 10
+    }
+  }
+  
+  tls /etc/ssl/private/certs/{$TAILSCALE_DOMAIN_NOPROT}.crt /etc/ssl/private/certs/{$TAILSCALE_DOMAIN_NOPROT}.key
+  
+  skip_log /icons/*
+
+  # This setting may have compatibility issues with some browsers
+  # (e.g., attachment downloading on Firefox). Try disabling this
+  # if you encounter issues.
+  encode gzip
+
+  # Proxy everything to Rocket
+  reverse_proxy vaultwarden:8001
+}
+## FI TAILSCALE
+
+## IF CLOUDFLARE
+{$CLOUDFLARE_DOMAIN}:443 {
+  log {
+    level INFO
+    output file {$LOG_FILE_CLOUDFLARE} {
+      roll_size 10MB
+      roll_keep 10
+    }
+  }
+
+  skip_log /icons/*
+
+  # Use the ACME DNS-01 challenge to get a cert for the configured domain.
+  tls {
+      dns cloudflare {$CLOUDFLARE_API_TOKEN}
+  }
+
+  # This setting may have compatibility issues with some browsers
+  # (e.g., attachment downloading on Firefox). Try disabling this
+  # if you encounter issues.
+  encode gzip
+
+  # Proxy everything to Rocket
+  reverse_proxy vaultwarden:8001
+}
+## FI CLOUDFLARE

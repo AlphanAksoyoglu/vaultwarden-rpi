@@ -1,0 +1,32 @@
+[
+    {
+        "path": "$SERVICES_HOME/utils/revert_ip_tables.sh",
+        "prefix":
+        [
+            "iptables -F DOCKER-USER",
+            "iptables -A DOCKER-USER -j RETURN"
+        ],
+        "drop": "iptables -D INPUT -m mac --mac-source <MAC_ADDRESSES_TO_BLOCK> -j DROP",
+        "replace":
+        {
+            "<MAC_ADDRESSES_TO_BLOCK>": "MAC_ADDRESSES_TO_BLOCK"
+        }
+    },
+    {
+        "path": "$SERVICES_HOME/utils/set_ip_tables.sh",
+        "prefix":
+        [
+            "iptables -I DOCKER-USER -i eth0,wlan0 -j DROP",
+            "iptables -I DOCKER-USER -j LOG --log-prefix \"DOCKER-DROP: \""
+        ],
+        "accept": "iptables -I DOCKER-USER -i eth0,wlan0 -p tcp -s <IP_RANGE> --sport 443 --dport 443 -j ACCEPT",
+        "drop": "iptables -I DOCKER-USER -m mac --mac-source <MAC_ADDRESSES_TO_BLOCK> -j DROP",
+        "drop_input": "iptables -I INPUT -m mac --mac-source <MAC_ADDRESSES_TO_BLOCK> -j DROP",
+        "replace":
+        {
+            "<MAC_ADDRESSES_TO_BLOCK>": "MAC_ADDRESSES_TO_BLOCK",
+            "<TAILSCALE_IP_RANGE>": "TAILSCALE_IP_RANGE",
+            "<LOCAL_NETWORK_IP_RANGE>": "LOCAL_NETWORK_IP_RANGE"
+        }
+    }
+]

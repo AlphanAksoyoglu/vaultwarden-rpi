@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: always
+    env_file: ./vaultwarden/vaultwarden.env
+    volumes:
+      - ./vaultwarden/data:/data
+    networks:
+      - internal
+
+  caddy:
+    image: caddy:2
+    container_name: caddy
+## IF TAILSCALE
+    depends_on:
+      # wait for tailscale to boot
+      # to communicate to it using the tailscaled.sock
+      - tailscale 
+## FI TAILSCALE
+    restart: always
+    ports:
+      - <RASPBERRY_PI_STATIC_LOCAL_IP>:80:80
+      - <RASPBERRY_PI_STATIC_LOCAL_IP>:443:443
+      - 127.0.0.1:80:80
+      - 127.0.0.1:443:443
+    volumes:
+      #Custom build of caddy arm64, cloudflare, and duckdns
+      #https://caddyserver.com/download?package=github.com%2Fcaddy-dns%2Fcloudflare&package=github.com%2Fcaddy-dns%2Fduckdns
+      - ./caddy/caddy:/usr/bin/caddy 
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy/caddy-config:/config
+      - ./caddy/caddy-data:/data
+## IF TAILSCALE
+      - ./tailscale/tmp/tailscaled.sock:/run/tailscale/tailscaled.sock
+      - ./tailscale/data/certs:/etc/ssl/private/certs
+## FI TAILSCALE
+    env_file: ./caddy/caddy.env
+    networks:
+      - internal
+      - external
+## IF TAILSCALE
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscaled
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - net_admin
+      - net_raw
+    volumes:
+      - ./tailscale/data:/var/lib/tailscale
+      - ./tailscale/dev/net/tun:/dev/net/tun
+      - ./tailscale/tmp:/tmp
+      - ./tailscale/run:/run
+    env_file:
+        - ./tailscale/tailscale.env
+## FI TAILSCALE
+
+## IF BACKUP
+  backup:
+    build: ./backup
+    volumes:
+      - ./backup:/root/services/backup
+      - ./vaultwarden/data:/root/services/vaultwarden/data
+      - ./backup/configs/.msmtprc:/root/.msmtprc
+## FI BACKUP
+
+networks:
+  internal:
+    driver: bridge
+    internal: true
+  external:
+    driver: bridge

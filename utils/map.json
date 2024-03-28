@@ -1,0 +1,69 @@
+[
+  {
+    "path": "$SERVICES_HOME/backup/configs/.msmtprc",
+    "replace": {
+      "<NOTIFIER_EMAIL>": "NOTIFIER_EMAIL",
+      "<NOTIFIER_APP_PASSWORD>": "NOTIFIER_APP_PASSWORD"
+    }
+  },
+  {
+    "path": "$SERVICES_HOME/backup/configs/backup_cron",
+    "replace": {
+      "<BACKUP_SCHEDULE>": "BACKUP_SCHEDULE"
+    }
+  },
+  {
+    "path": "$SERVICES_HOME/backup/processors/backup.env",
+    "replace": {
+      "<YOUR_EMAIL>": "YOUR_EMAIL",
+      "<DBOX_REFRESH_TOKEN>": "DBOX_REFRESH_TOKEN",
+      "<DBOX_APP_KEY>": "DBOX_APP_KEY",
+      "<DBOX_APP_SECRET>": "DBOX_APP_SECRET",
+      "<DBOX_APP_FOLDER>": "DBOX_APP_FOLDER",
+      "<DBOX_RETAIN_DAYS>": "DBOX_RETAIN_DAYS"
+    }
+  },
+  {
+    "path": "$SERVICES_HOME/caddy/caddy.env",
+    "replace": {
+      "<DUCKDNS_DOMAIN>": "DUCKDNS_DOMAIN",
+      "<TAILSCALE_DOMAIN_NOPROT>": "TAILSCALE_DOMAIN_NOPROT",
+      "<YOUR_DOMAIN>": "YOUR_DOMAIN",
+      "<YOUR_EMAIL>": "YOUR_EMAIL",
+      "<DUCKDNS_TOKEN>": "DUCKDNS_TOKEN",
+      "<CLOUDFLARE_API_TOKEN>": "CLOUDFLARE_API_TOKEN"
+    }
+  },
+  {
+    "path": "$SERVICES_HOME/vaultwarden/vaultwarden.env",
+    "replace": {
+      "<YOUR_DOMAIN>": "YOUR_DOMAIN"
+    }
+  },
+  {
+    "path": "$SERVICES_HOME/tailscale/tailscale.env",
+    "replace": {
+      "<TAILSCALE_SUBDOMAIN>": "TAILSCALE_SUBDOMAIN",
+      "<TAILSCALE_AUTHKEY>": "TAILSCALE_AUTHKEY"
+    }
+  },
+  {
+    "path": "$SERVICES_HOME/utils/vaultwarden-docker.service",
+    "replace": {
+      "<SERVICES_HOME>": "SERVICES_HOME"
+    }
+  },
+  {
+    "path": "$SERVICES_HOME/docker-compose.yml",
+    "replace": {
+      "<RASPBERRY_PI_STATIC_LOCAL_IP>": "RASPBERRY_PI_STATIC_LOCAL_IP"
+    }
+  },
+  {
+    "path": "$SERVICES_HOME/utils/dnsmasq.conf",
+    "replace": {
+      "<YOUR_DOMAIN>": "YOUR_DOMAIN",
+      "<TAILSCALE_IP_RASPBERRY_PI>": "TAILSCALE_IP_RASPBERRY_PI"
+    }
+  }
+]
