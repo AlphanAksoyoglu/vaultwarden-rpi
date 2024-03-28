@@ -24,6 +24,34 @@ Modular setup options:
 
 - **Minimal Hardware Requirements:** Built/tested on a Raspberry Pi Zero 2 W.  
 
+
+## Table of Contents
+
+- [Vaultwarden Raspberry PI](#vaultwarden-raspberry-pi)
+  - [Table of Contents](#table-of-contents)
+  - [What is Vaultwarden](#what-is-vaultwarden)
+  - [What does this do?](#what-does-this-do)
+  - [Which Modules are Available?](#which-modules-are-available)
+  - [How do I install it?](#how-do-i-install-it)
+    - [Using the Installer](#using-the-installer)
+      - [Instructions](#instructions)
+    - [Manual Installation](#manual-installation)
+  - [How to fill the config file](#how-to-fill-the-config-file)
+    - [Mandatory Fields](#mandatory-fields)
+    - [Cloudflare or DuckDNS Fields](#cloudflare-or-duckdns-fields)
+      - [Cloudflare](#cloudflare)
+      - [DuckDNS](#duckdns)
+    - [Tailscale Fields](#tailscale-fields)
+    - [Tailscale Fields - after install](#tailscale-fields---after-install)
+      - [Why do we do this?](#why-do-we-do-this)
+    - [Backup Fields](#backup-fields)
+      - [How to create an app password for Gmail](#how-to-create-an-app-password-for-gmail)
+      - [Setting up a Dropbox App](#setting-up-a-dropbox-app)
+        - [Generating the Refresh Token](#generating-the-refresh-token)
+    - [IPTABLES Fields](#iptables-fields)
+  - [References and Acknowledgements](#references-and-acknowledgements)
+      - [Licenses:](#licenses)
+
 ## What is Vaultwarden
 
 Vaultwarden is a password management service, a lightweight version of the popular open-source password manager Bitwarden.
@@ -87,7 +115,7 @@ In principle, the installation is very simple using the installer
 
 Depending on your module choices though you will need to setup certain accounts, and the more modules you use, the more work you will need to do to complete the config file.
 
-Please read the [HOW TO FILL OUT THE CONFIG FILE](#how-to-fill-out-the-config-file) section for details on the modules and how to fill out your config file.
+Please read the [How to fill the config file](#how-to-fill-out-the-config-file) section for details on the modules and how to fill out your config file.
 
 **Note:** Depending on architecture you might have to replace the caddy executeable under `./caddy/caddy` The caddy executable used here is for Linux ARM64 (for raspberrypi).
 
@@ -113,7 +141,7 @@ chomd +x ./install.sh
 
 This will ask you a couple of questions regarding which modules/options you want to include in your setup and prepare your config file `./utils/config.conf`
 
-3. Fill out **all uncommented** fields in `./utils/config.conf`. See [HOW TO FILL OUT THE CONFIG FILE](#how-to-fill-out-the-config-file)
+3. Fill out **all uncommented** fields in `./utils/config.conf`. See [How to fill the config file](#how-to-fill-out-the-config-file)
 
 <br>
 
@@ -144,7 +172,7 @@ Here is briefly what the installer will do:
 6. After installation
 
 - If you are using Tailscale, you will need to configure DNS settings in your Tailscale account.
-See: [TAILSCALE AFTER INSTALL](#tailscale-after-install)
+See: [Tailscale Fields - after install](#tailscale-after-install)
 
 - You will want to uncomment and create an **ADMIN_TOKEN** in ./vaultwarden/vaultwarden.env for your initial vaultwarden configuration
 
@@ -154,7 +182,7 @@ Please refer to the official documentation [The Official Vaultwarden Repository]
 
 [TBD]
 
-## HOW TO FILL OUT THE CONFIG FILE
+## How to fill the config file
 
 The config file is divided into sections, not all fields need to be filled and depending on your choices when you run 
 
@@ -189,7 +217,9 @@ If you are using cloudflare, you will need your own domain. e.g, **mysite.com**
 
 - Set up an A record for your domain in cloudflare, and point it to the static ip of your device. it should look something like this
 
+
 |Type|Name|Content|Proxy Status|TTL|
+|---|---|---|---|---|
 |A|*|192.168.1.33|DNS only - reserved IP|Auto|
 
 - You will need an API Token from Cloudflare. See here for details [https://github.com/dani-garcia/vaultwarden/wiki/Running-a-private-vaultwarden-instance-with-Let%27s-Encrypt-certs#cloudflare-setup]
@@ -225,7 +255,7 @@ DUCKDNS_DOMAIN=https://vaultwarden.duckdns.org
 DUCKDNS_TOKEN=your_duckdns_token
 ```
 
-### TAILSCALE FIELDS
+### Tailscale Fields
 
 If you want to use tailscale as a VPN service so that you can connect to your Vaultwarden instance remotely, you will need to register an account on Tailscale and add all devices you want to be in your tailscale network in there.
 
@@ -264,7 +294,7 @@ TAILSCALE_DOMAIN_NOPROT is TAILSCALE_SUBDOMAIN followed by TAILNET NAME e.g., va
 
 **NOTE:** You will need to come back to tailsclae admin console and do one last change after the installer runs
 
-### TAILSCALE AFTER INSTALL
+### Tailscale Fields - after install
 
 After the installation is complete, you will see your machine that hosts vaultwarden added in tailscale with the TAILSCALE_SUBDOMAIN name of your choice.
 
@@ -285,7 +315,7 @@ We want our domain name to always resolve to the correct machine whether we are 
 When we are on tailscale though this resolution is not going to work, so instead we configure tailscale to use the tailscale installed host machine as the DNS. The installer will install a lightweight dns forwarder (dnsmasq) to handle this dns request and mak sure it resolves properly.
 
 
-### BACKUP FIELDS
+### Backup Fields
 
 **Note:** You will need Dropbox and Gmail for this to run properly. You will also need to create an app token for Dropbox and setup smtp for Gmail.
 
@@ -301,7 +331,7 @@ The decrytion key for this file, along with a backup status message will be emai
 
 #### How to create an app password for Gmail
 
-See the [Official Documentation Here](https://support.google.com/mail/answer/185833?hl=en) to create an app password for Gmail. Please create a separate Gmail account for this procedure, or use an account where you do not have personal or sensitive information. See the note in the BACKUP FIELDS section for details.
+See the [Official Documentation Here](https://support.google.com/mail/answer/185833?hl=en) to create an app password for Gmail. Please create a separate Gmail account for this procedure, or use an account where you do not have personal or sensitive information. See the note in the Backup Fields section for details.
 
 Keep this password somewhere safe
 
@@ -335,7 +365,7 @@ Now make a curl request to obtain your refresh token.
 
 ```bash
 curl https://api.dropbox.com/oauth2/token \
-	-d code=<access_code_that_you_just_copied> \
+    -d code=<access_code_that_you_just_copied> \
     -d grant_type=authorization_code \
     -d client_id=<your_app_key> \
     -d client_secret=<your_app_secret>
@@ -398,3 +428,23 @@ TAILSCALE_IP_RANGE=100.100.55.10/28,100.100.55.13
 - [Securing Access to Vaultwarden with Tailscale and Caddy](https://mijo.remotenode.io/posts/tailscale-caddy-docker/) by Michael Johansson. A deployment that uses Tailscale as an alternative to native wireguard.
 - [Securing my Home Network with dnsmasq and Tailscale](https://simpsonian.ca/blog/securing-home-network-dnsmasq-tailscale/) by Simpsonian. Thanks for the tips on configuring Tailscale and dnsmasq together for consistent domain resolution.
 
+#### Licenses:
+
+- The cellphone, and the key icon 
+    - License: [Creative Commons 3.0](https://creativecommons.org/licenses/by/3.0/)
+    - Source: [TheGleeMat](https://www.iconfinder.com/TheGleeMat), and [wp-zoom-developer-icon-set](https://www.iconfinder.com/iconsets/wpzoom-developer-icon-set)
+
+
+- The Laptop and the Lock Icons 
+    - License: [MIT Licence](https://opensource.org/license/MIT)
+    - Source: [bootstrap-icons](https://www.iconfinder.com/bootstrap-icons), and [evil-icons-user-interface](https://www.iconfinder.com/iconsets/evil-icons-user-interface)
+
+
+- Other Device Icons
+    - License: Free with Attribution
+    - Source: [freepik](https://www.freepik.com/search?format=search&last_filter=query&last_value=devices&query=devices&type=icon)
+
+
+- Dropbox, Gmail, and Docker Icons
+    - License: [Creative Commons Zero v1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/deed.en)
+    - Source: [iconduck](https://iconduck.com/licenses/cc0)
