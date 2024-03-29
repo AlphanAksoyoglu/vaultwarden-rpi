@@ -29,7 +29,7 @@ Modular setup options:
 
 - [Vaultwarden Raspberry PI](#vaultwarden-raspberry-pi)
   - [Table of Contents](#table-of-contents)
-  - [What is Vaultwarden](#what-is-vaultwarden)
+  - [What is Vaultwarden?](#what-is-vaultwarden)
   - [What does this do?](#what-does-this-do)
   - [Which Modules are Available?](#which-modules-are-available)
   - [How do I install it?](#how-do-i-install-it)
@@ -52,19 +52,19 @@ Modular setup options:
   - [References and Acknowledgements](#references-and-acknowledgements)
       - [Licenses:](#licenses)
 
-## What is Vaultwarden
+## What is Vaultwarden?
 
-Vaultwarden is a password management service, a lightweight version of the popular open-source password manager Bitwarden.
+Vaultwarden is a lightweight password management service, offering a lighter version of the popular open-source password manager, Bitwarden.
 
-**Note:** This repository only deploys a functinal Vaultwarden server for you. For configuring and using Vaultwarden securely please visit [The Official Vaultwarden Repository](https://github.com/dani-garcia/vaultwarden)
+**Note:** This repository is for deploying a functional Vaultwarden server. For guidance on configuring and securely utilizing Vaultwarden, please refer to [The Official Vaultwarden Repository](https://github.com/dani-garcia/vaultwarden).
 
 ## What does this do?
 
-It sets up containerized services so that you can self-host your own Vaultwarden (Bitwarden) service. Either under a domain name you own, or through a DuckDNS subdomain.
+It sets up containerized services, enabling you to self-host your own Vaultwarden (Bitwarden) service. You can host this either under a domain name you own or via a DuckDNS subdomain.
 
-The deployment is designed to be deployed privately, that is, it is not exposed to the internet, but if desired, accessible from anywhere through VPN.
+The deployment is tailored for private use, ensuring it remains unexposed to the internet. However, it can be made accessible from anywhere through VPN (Tailscale) if desired.
 
-This is suitable to host on a mini Single Board Computer (SBC) like the Raspberry Pi Zero 2 W.
+This setup is ideal for hosting on mini Single Board Computers (SBCs) like the Raspberry Pi Zero 2 W.
 
 ## Which Modules are Available?
 
@@ -72,11 +72,11 @@ This is suitable to host on a mini Single Board Computer (SBC) like the Raspberr
 The bare bones setup sets up a Vaultwarden Service, and uses Caddy as a reverse proxy to access the Vaultwarden Service. Depeding on your DNS choice the Vaultwarden service will be accessible through your own domain name, or through a DuckDNS subdomain. It will be completely blocked to outside access as all domain names resolve to your local ip address.
 
 - ### Optional Tailscale Service
-Tailscale is a private and encrypted mesh network service that allows users to easily access resources across different devices and networks, without the need for complex configurations or VPN setups.
+Tailscale is a private and encrypted mesh network service that allows users to easily access resources across different devices and networks, without the need for complex configurations or a VPN setup.
 
 Tailscale is based on WireGuard, which is a modern open-source VPN protocol known for its simplicity and efficiency.
 
-Setting up a Tailscale container allows you to access the Vaultwarden service you are hosting to be accessible by devices on your Tailscale network, even when you are not connected to your LAN. Utilizing a VPN network through authenticated devices
+Setting up a Tailscale container allows you to access the Vaultwarden service you are hosting to be accessible by devices on your Tailscale network, even when you are not connected to your LAN.
 
 - ### Optional Backup Service
 
@@ -95,11 +95,11 @@ our solution offers a unique advantage. By customizing your backup process, you 
 
 - ### Optional UFW, IPTABLES Hardening
 
-Although the Vaultwarden service in this deployment is hosted locally, there is not excuse not to implement additional security. Using UFW we isolate the machine hosting the service and only allow ssh access to it.
+While the Vaultwarden service in this deployment is hosted locally, there's no harm implementing additional security measures. Using UFW, we isolate the machine hosting the service and restrict access to only SSH.
 
-We also use IPTABLES to secure the docker network such that only allowed Local and Tailscale IP addresses can access the Docker network.
+Additionally, we utilize IPTABLES to enhance Docker network security, ensuring that only permitted Local and Tailscale IP addresses can access the Docker network.
 
-We can also block some MAC ADDRESSES which are in our local network from accessing the Docker Network (e.g., nosy IOT devices, or people allowed in our local network)
+Furthermore, we have the capability to block specific MAC addresses within our local network from accessing the Docker Network. This feature proves useful for devices like nosy IoT devices or individuals permitted in our local network.
 
 ## How do I install it?
 
@@ -107,31 +107,31 @@ You can either use the included install script `utils/install.sh` or manually se
 
 ### Using the Installer
 
-In principle, the installation is very simple using the installer
+Installation is straightforward using the installer:
 
-1. You run the installer with the `--init` flag to prepare your config file
-2. you fill out your config file
-3. You run the installer with the `--install` flag to complete the setup.
+1. Initiate the installer with the `--init` flag to prepare your config file
+2. Fill out the `./utils/config.conf` file
+3. Execute the installer with the `--install` flag to complete the setup.
 
-Depending on your module choices though you will need to setup certain accounts, and the more modules you use, the more work you will need to do to complete the config file.
+However, depending on your module selections, you may need to set up specific accounts. The more modules you choose, the more configuration work may be required to complete the config file.
 
-Please read the [How to fill the config file](#how-to-fill-out-the-config-file) section for details on the modules and how to fill out your config file.
+Please read the [How to fill the config file](#how-to-fill-out-the-config-file) section for details on the modules and filling out your config file.
 
-**Note:** Depending on architecture you might have to replace the caddy executeable under `./caddy/caddy` The caddy executable used here is for Linux ARM64 (for raspberrypi).
+**IMPORTANT:** Depending on architecture you might have to replace the caddy executeable under `./caddy/caddy`. 
 
-You will need to include caddy-dns/cloudflare and caddy-dns/duckdns feature in the build
+The caddy executable included in the repo is for Linux ARM64 (for raspberrypi).
 
 You can download the executable for your architecture using [this link](https://caddyserver.com/download?package=github.com%2Fcaddy-dns%2Fcloudflare&package=github.com%2Fcaddy-dns%2Fduckdns)
 
-Or you can opt to build it yourself.
+You will need to include: 
+- caddy-dns/cloudflare
+- caddy-dns/duckdns
+
+features when building the executable
 
 #### Instructions
 
 1. Clone or Download the repo to a local folder on your device
-
-```bash
-git clone [LATER]
-```
 
 2. Run the installer with the `--init` flag
 ```bash
@@ -139,44 +139,44 @@ chomd +x ./install.sh
 ./install.sh --init
 ```
 
-This will ask you a couple of questions regarding which modules/options you want to include in your setup and prepare your config file `./utils/config.conf`
+This prompts you with a few questions regarding which modules/options you want to include in your setup and prepares your config file `./utils/config.conf`
 
 3. Fill out **all uncommented** fields in `./utils/config.conf`. See [How to fill the config file](#how-to-fill-out-the-config-file)
-
 <br>
-
 4. Run the installer again with the `--install` flag
 
 ```bash
 ./install.sh --install
 ```
 
-5. Follow the instructions of the installer.
+5. Follow the instructions provided by the installer.
 
-**Note:** The installer is designed to tell you what it is about to do, and ask you for confirmation before it does anything. If you are setting this up on a fresh device (e.g., newly acquired Raspberry Pi Zero 2 W) you will be more fault tolerant.
+**Note:** The installer is designed to: 
+1. Always tell you what it is about to do
+2. Ask you for confirmation before it does anything. 
 
-If you are runnnig the installer on a machine where your are already running dnsmasq, docker or related services, ufw, iptables etc. please pay attention to what the installer is about to do and backup your data.
+If you are setting this up on a fresh device (e.g., newly acquired Raspberry Pi Zero 2 W) you will have more leeway for errors.
 
-Here is briefly what the installer will do:
+If you're running the installer on a machine where you already have services like dnsmasq, Docker, ufw, iptables, etc., in operation, pay close attention to the installer's actions and ensure you back up your data.
 
-- The installer will, at various steps, and depending on your options, install **docker**, **ca-certificates**, **curl**, **gnupg**, **dnsmasq**, **ufw**, **iptables-persistent** on your machine 
+Here's a brief overview of what the installer will do:
 
-- After **docker** installation, if you opted to enable **Tailscale**, it will create certificates for Tailscale, allow Caddy access to Tailscale socket, and find your Tailscale IP and updates it in necessary parts of .env and config files
+- Install various dependencies such as **docker**, **ca-certificates**, **curl**, **gnupg**, **dnsmasq**, **ufw**, **iptables-persistent** on your machine.
 
-- It will also setup **dnsmasq** and configure it such that wether you are connecting through **LAN** or **Tailscale** your domain name resolves to the correct IP address
+- After **docker** installation, if you opted to enable **Tailscale**, it will create certificates for Tailscale, grant Caddy access to Tailscale socket, obtain your Tailscale IP and update it in `*.env` and `config.conf` files where necessary.
 
-- If you opted to enable **UFW and IPTABLES** it will install **UFW**, block all incoming connections apart from the ssh port (22), and setup **IPTABLES** such that only the **Tailscale IP Addresses** and **Local IP Addresses** you allowed in the **config.conf** can access the Docker Network. It will also blacklist any **MAC ADDRESSES** you specified in the config.conf file from accessing the Docker Network
+- Configure **dnsmasq** to ensure your domain name resolves correctly to the correct IP address whether you're connecting through **LAN** or **Tailscale**.
 
-- Finally it will setup the docker-compose service as a **systemd service** so that it restarts automatically at reboot
+- If you opted to enable **UFW and IPTABLES** it will install **UFW**, block all incoming connections apart from the ssh port (22), and setup **IPTABLES** such that only the **Tailscale IP Addresses** and **Local IP Addresses** you allowed in the **config.conf** can access the Docker Network. It will also blacklist any **MAC ADDRESSES** you specified in the config.conf file from accessing the Docker Network.
+
+- Setup docker-compose service as a **systemd service** to ensure it restarts automatically at reboot.
 
 6. After installation
 
 - If you are using Tailscale, you will need to configure DNS settings in your Tailscale account.
 See: [Tailscale Fields - after install](#tailscale-after-install)
 
-- You will want to uncomment and create an **ADMIN_TOKEN** in ./vaultwarden/vaultwarden.env for your initial vaultwarden configuration
-
-Please refer to the official documentation [The Official Vaultwarden Repository](https://github.com/dani-garcia/vaultwarden)
+- You will want to uncomment and create an **ADMIN_TOKEN** in ./vaultwarden/vaultwarden.env for your initial vaultwarden configuration. Please refer to the official documentation [The Official Vaultwarden Repository](https://github.com/dani-garcia/vaultwarden) about configuring and setting up Vaultwarden.
 
 ### Manual Installation
 
@@ -184,7 +184,7 @@ Please refer to the official documentation [The Official Vaultwarden Repository]
 
 ## How to fill the config file
 
-The config file is divided into sections, not all fields need to be filled and depending on your choices when you run 
+The config file is divided into sections, not all fields need to be filled, and depending on your choices when you run 
 
 ```bash
 chmod +x
@@ -196,7 +196,7 @@ We will also handle the fields here in sections
 
 ### Mandatory Fields
 
-These fields are mandatory regardless of shich option you choose. RASPBERRY_PI_STATIC_LOCAL_IP
+These fields are mandatory regardless of which option you choose. RASPBERRY_PI_STATIC_LOCAL_IP
 is the static ip of the machine you are installing this deployment, does not have to be a raspberry pi. But please do set a local static ip for your machine, e.g., 192.168.1.33
 
 ```bash
@@ -209,20 +209,20 @@ RASPBERRY_PI_STATIC_LOCAL_IP=192.168.1.33
 
 One group or the other will be commented out depending on your choices. We are going to confgure Caddy to obtain Let's Encrypt certs via the DNS challange.
 
-See the official documentation here: [https://github.com/dani-garcia/vaultwarden/wiki/Running-a-private-vaultwarden-instance-with-Let%27s-Encrypt-certs]
+See the official documentation here: [Running a Private Vaultwarden Instance with Let's encrypt Certs](https://github.com/dani-garcia/vaultwarden/wiki/Running-a-private-vaultwarden-instance-with-Let%27s-Encrypt-certs)
 
 #### Cloudflare
 
-If you are using cloudflare, you will need your own domain. e.g, **mysite.com**
+If you are using cloudflare, you will need to own a domain. e.g, **mysite.com**
 
-- Set up an A record for your domain in cloudflare, and point it to the static ip of your device. it should look something like this
+- Set up an A record for your domain in Cloudflare, and point it to the static ip of your device. It should look something like this
 
 
 |Type|Name|Content|Proxy Status|TTL|
 |---|---|---|---|---|
 |A|*|192.168.1.33|DNS only - reserved IP|Auto|
 
-- You will need an API Token from Cloudflare. See here for details [https://github.com/dani-garcia/vaultwarden/wiki/Running-a-private-vaultwarden-instance-with-Let%27s-Encrypt-certs#cloudflare-setup]
+- You will need an API Token from Cloudflare. See here for details [Running a Private Vaultwarden Instance with Let's encrypt Certs](https://github.com/dani-garcia/vaultwarden/wiki/Running-a-private-vaultwarden-instance-with-Let%27s-Encrypt-certs)
 
 1. In the upper right corner, click the person icon and navigate to `My Profile`, and then select the `API Tokens` tab.
 1. Click the `Create Token` button, and then `Use template` on `Edit zone DNS`.
@@ -244,9 +244,9 @@ CLOUDFLARE_API_TOKEN=your_cloudflare_token
 If you do not have your own domain, you can also use DuckDNS to configure caddy o use a DNS Challange.
 
 1. You will need to go to [duckdns.org](https://www.duckdns.org/) and open an account. 
-1. Create a subdomain
-1. Point the subdomain to your machine's static local ip, e.g. 192.168.1.33 (you need to write your static local ip in the current ip box)
-1. Also take note of your Duck DNS token
+1. Create a subdomain, e.g. **vaultwarden.duckdns.org**
+1. Point the subdomain to your machine's static local IP, e.g. 192.168.1.33 ( write your static local ip in the current ip box)
+1. Take note of your Duck DNS token
 
 Now in the config file fill out these two values
 
@@ -257,15 +257,17 @@ DUCKDNS_TOKEN=your_duckdns_token
 
 ### Tailscale Fields
 
-If you want to use tailscale as a VPN service so that you can connect to your Vaultwarden instance remotely, you will need to register an account on Tailscale and add all devices you want to be in your tailscale network in there.
+If you want to use tailscale as a VPN service so that you can connect to your Vaultwarden instance remotely, you will need to register an account on Tailscale and add all devices you want to be in your Tailscale network in there.
 
-Go to [tailscale.com](https://tailscale.com/) and create an account. At this point, register a device on your tailscale network, e.g, your laptop computer which needs remote access to your Vaultwarden.
+Go to [tailscale.com](https://tailscale.com/) and create an account. At this point, register a device on your tailscale network, e.g, your laptop computer which needs remote access to your Vaultwarden Service.
 
-In the machines, section you should see the device you registered in the tailscale network.
+In the machines section you should now see the device you registered in the Tailscale network.
 
 The installer will setup tailscale for our deployment automatically, but it will need an authorization key.
 
-Go to Settings -> Keys -> Generate auth key, with these settings:
+Go to **Settings -> Keys -> Generate Auth Key** 
+
+Generate an Auth Key with these settings:
 
 - Expiration: anything
 - Ephemeral: off
@@ -274,7 +276,7 @@ Go to Settings -> Keys -> Generate auth key, with these settings:
 
 Generate this key and record it somewhere
 
-Now go to DNS, and copy your TAILNET NAME e.b. tail0557b.ts.net
+Now go to DNS tab in Tailscale Admin Console, and copy your TAILNET NAME e.g. **tail0557b.ts.net**
 
 Now you can fill out these fields in the config file
 
@@ -298,21 +300,22 @@ TAILSCALE_DOMAIN_NOPROT is TAILSCALE_SUBDOMAIN followed by TAILNET NAME e.g., va
 
 After the installation is complete, you will see your machine that hosts vaultwarden added in tailscale with the TAILSCALE_SUBDOMAIN name of your choice.
 
-It should have its own unique IP address such as 100.100.94.876
+It should have its own unique IP address, e.g, **100.100.94.876**
 
-Now go to the DNS section, click add nameserver and in the nameserver section input this unique id.
-You need to switch **Restrict to Domain** on, and add your domain name here:
-
-Following our examples:
-
-if using cloudflare: mysite.com
-if using duckdns: duckdns.org
+- Go to the DNS section in tailscale 
+- Click Add Nameserver 
+- Input the Tailscale IP Address of your machine here, e.g **100.100.94.876**.
+- Switch **Restrict to Domain** on 
+- Add your domain name in this field
+    - Following our examples:
+    - if using cloudflare, domain name should be mysite.com
+    - if using duckdns, domain name should be duckdns.org
 
 #### Why do we do this?
 
 We want our domain name to always resolve to the correct machine whether we are on LAN or on Tailscale. We setup cloudflare or duckdns to resolve your domain to your local machine.
 
-When we are on tailscale though this resolution is not going to work, so instead we configure tailscale to use the tailscale installed host machine as the DNS. The installer will install a lightweight dns forwarder (dnsmasq) to handle this dns request and mak sure it resolves properly.
+When we are on tailscale though this resolution is not going to work, so instead we configure tailscale to use the tailscale installed host machine as the DNS. The installer will install a lightweight dns forwarder (dnsmasq) to handle this dns request and make sure it resolves properly.
 
 
 ### Backup Fields
@@ -339,15 +342,16 @@ Keep this password somewhere safe
 
 We will need to setup a Dropbox App that is allowed to only read from/ write into a specific folder in Dropbox, tat is only accessible by you. For this app to work correctly you will need to generate a refresh token.
 
-Navigate to [dropbox.com/developers](https://www.dropbox.com/developers) and click on App Console
+1. Navigate to [dropbox.com/developers](https://www.dropbox.com/developers) and click on App Console
 
-Click on Create App, choose App folder in Scoped Accesss and then give your app a Name. let's call it my_app.
+2. Click on Create App, choose App folder in Scoped Accesss and then give your app a Name. let's call it **my_app**.
 
-Set Allow public clients (Implicit Grant & PKCE) to Disallow
+3. Set Allow public clients (Implicit Grant & PKCE) to Disallow
 
 
-In the next page, make note of the App key and App secret
-Go to permissions and check
+4. In the next page, make note of the App key and App secret
+
+5. Go to **Permissions** and check
 
 - files.metadata.read
 - files.content.write
@@ -355,13 +359,12 @@ Go to permissions and check
 
 ##### Generating the Refresh Token
 
-Now visit the following link, replace **your_app_key_here** in the link with your App Key
+6. Now visit the following link, replace **your_app_key_here** in the link with your App Key
+    - https://www.dropbox.com/oauth2/authorize?client_id=your_app_key_here&token_access_type=offline&response_type=code
 
-https://www.dropbox.com/oauth2/authorize?client_id=your_app_key_here&token_access_type=offline&response_type=code
-
-and copy the Access Code that is Generated
-
-Now make a curl request to obtain your refresh token.
+7. Copy the Access Code that is generated by this link
+<br>
+8. Now make a curl request to obtain your refresh token.
 
 ```bash
 curl https://api.dropbox.com/oauth2/token \
@@ -370,13 +373,14 @@ curl https://api.dropbox.com/oauth2/token \
     -d client_id=<your_app_key> \
     -d client_secret=<your_app_secret>
 ```
-If you get a code expired message, regenerate your Access Code and try again.
+**Noe:** If you get a code expired message, regenerate your Access Code and try again.
 
-Copy the refresh token from the response.
+9. Copy the refresh token from the response.
+<br>
+10. In the root of your Dropbox folder, please create a folder with the same name as your app name (**my_app**) if it is not already created
+<br>
+10. Now you are ready to fill out these fields in the config file.
 
-Now you are ready to fill out these fields in the config file.
-
-In the root of your Dropbox folder please create a folder with the same name as your App name if it is not already created
 
 ```bash
 #gmail address setup with an app password
