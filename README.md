@@ -425,6 +425,15 @@ These Tailscale IP addresses will be allowed to access the docker network. you c
 TAILSCALE_IP_RANGE=100.100.55.10/28,100.100.55.13
 ```
 
+## TODO
+
+- Finishing the manual installation section of this document
+- Installation and Setup Improvements
+  - More manual configuration and setup steps could potentially be automated
+  - Installer could be expanded to be architecture specific
+  - Installer + Infrastructure as Code ???
+  - Modularization of Docker Compose should be handled better than commenting sections out of it
+
 ## References and Acknowledgements
 
 - [Official Vaultwarden Repository:](https://github.com/dani-garcia/vaultwarden) The official source for Vaultwarden, which also has great articles and links to additional methods of deployment. A must visit.
