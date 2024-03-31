@@ -2,7 +2,7 @@
 
 A self-hosted Vaultwarden (Bitwarden) deployment, accessible via LAN and seamlessly reachable from anywhere via VPN integration with Tailscale.
 
-![Overview](./docs/overview.svg)
+![Overview](./docs/overview.png)
 
 **Everything is Dockerized** apart from optional UFW and IPTABLES configuration so should be easily deployable to any system supporting Docker.
 
