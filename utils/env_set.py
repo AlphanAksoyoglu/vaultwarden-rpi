@@ -99,22 +99,19 @@ class EnvironmentConfigurator():
 if __name__== "__main__":
     
     parser = argparse.ArgumentParser(description='Sets Environment Vars for .env files')
-    parser.add_argument('process_iptables', type=str, help='Whether to process IPTABLES')
+    parser.add_argument('--process_iptables', action='store_true', help='Whether to process IPTABLES')
     args = parser.parse_args()
-
-    if args.process_iptables == "process_iptables":
-        process_iptables = True
         
     services_home = os.getenv("SERVICES_HOME")
         
     config_path = f"{services_home}/utils/config.conf"
     map_file_path = f"{services_home}/utils/map.json"
-    map_file_iptables_path = f"{services_home}/utils/map_iptables.json" if process_iptables else None
+    map_file_iptables_path = f"{services_home}/utils/map_iptables.json" if args.process_iptables else None
         
     configurator = EnvironmentConfigurator(config_file_path=config_path,
                                           map_file_path=map_file_path,
                                           map_file_iptables_path=map_file_iptables_path,
                                           services_home = services_home)
     configurator.map_env_vars()
-    if process_iptables:
+    if args.process_iptables:
         configurator.map_env_vars_iptables()
