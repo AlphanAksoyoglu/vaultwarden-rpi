@@ -367,7 +367,7 @@ install_docker(){
 
 set_environment_files () {
     if [ "$include_iptables" = true ]; then
-        python env_set.py "process_iptables"
+        python env_set.py --process_iptables
     else
         python env_set.py
     fi

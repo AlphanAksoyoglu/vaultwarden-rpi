@@ -27,7 +27,7 @@ log "STARTING BACKUP $TIMESTAMP"
 # We rm -rf on BACKUP_FOLDER, this is to prevent disasters in case the variable is not set
 BACKUP_ROOT="${BACKUP_ROOT:-$HOME/services/backup}"
 BACKUP_FOLDER="${BACKUP_FOLDER:-$BACKUP_ROOT/backup}"
-
+mkdir -p $BACKUP_FOLDER
 
 # Set up the trap to call the handle_exit function on script termination
 # We execute send_email.sh regardless if backup.sh fails or not
