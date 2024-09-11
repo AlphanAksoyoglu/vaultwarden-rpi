@@ -12,7 +12,7 @@ services:
       - internal
 
   caddy:
-    image: caddy:2
+    image: caddy:latest
     container_name: caddy
 ## IF TAILSCALE
     depends_on:
@@ -34,7 +34,7 @@ services:
       - ./caddy/caddy-config:/config
       - ./caddy/caddy-data:/data
 ## IF TAILSCALE
-      - ./tailscale/tmp/tailscaled.sock:/run/tailscale/tailscaled.sock
+      #- ./tailscale/tmp/tailscaled.sock:/run/tailscale/tailscaled.sock
       - ./tailscale/data/certs:/etc/ssl/private/certs
 ## FI TAILSCALE
     env_file: ./caddy/caddy.env
